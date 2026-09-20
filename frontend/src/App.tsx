@@ -1,4 +1,3 @@
-import { FormEvent, useEffect, useMemo, useState } from 'react';
 import {
   ArrowUpRight,
   BarChart3,
@@ -14,6 +13,7 @@ import {
   Trash2,
   X,
 } from 'lucide-react';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
 
 type LinkRecord = {
   code: string;
@@ -24,8 +24,8 @@ type LinkRecord = {
 };
 
 const API_URL = (import.meta.env.VITE_API_URL || window.location.origin).replace(/\/$/, '');
-const STORAGE_KEY = 'shortly-links';
-const THEME_KEY = 'shortly-theme';
+const STORAGE_KEY = 'Ashorty-links';
+const THEME_KEY = 'Ashorty-theme';
 
 function App() {
   const [url, setUrl] = useState('');
@@ -139,9 +139,9 @@ function App() {
   return (
     <div className="app-shell">
       <header className="nav container">
-        <a className="brand" href="#top" aria-label="Shortly home">
+        <a className="brand" href="#top" aria-label="Ashorty home">
           <span className="brand-mark"><Link2 size={19} strokeWidth={2.5} /></span>
-          <span>Shortly</span>
+          <span>Ashorty</span>
         </a>
         <div className="nav-actions">
           <span className={`api-status ${apiOnline === false ? 'offline' : ''}`}><i /> {statusLabel}</span>
@@ -215,7 +215,7 @@ function App() {
         </section>
       </main>
 
-      <footer className="footer container"><span>Shortly</span><span>Fast, minimal URL shortening.</span></footer>
+      <footer className="footer container"><span>Ashorty</span><span>Fast, minimal URL shortening.</span></footer>
 
       {stats && (
         <div className="modal-backdrop" onMouseDown={() => setStats(null)}>
