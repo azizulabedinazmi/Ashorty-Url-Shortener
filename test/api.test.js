@@ -58,6 +58,19 @@ test('an unknown code returns 404, not an empty 200', async () => {
   server.close();
 });
 
+test('malformed codes are rejected before lookup', async () => {
+  const server = await startServer();
+  const base = `http://localhost:${server.address().port}`;
+
+  const followRes = await fetch(`${base}/too-short`, { redirect: 'manual' });
+  assert.equal(followRes.status, 404);
+
+  const statsRes = await fetch(`${base}/api/links/has spaces`);
+  assert.equal(statsRes.status, 404);
+
+  server.close();
+});
+
 test('a malformed target URL is rejected with 400 before anything is stored', async () => {
   const server = await startServer();
   const base = `http://localhost:${server.address().port}`;
