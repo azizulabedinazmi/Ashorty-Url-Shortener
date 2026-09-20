@@ -144,7 +144,7 @@ function App() {
           <span>Ashorty</span>
         </a>
         <div className="nav-actions">
-          <span className={`api-status ${apiOnline === false ? 'offline' : ''}`}><i /> {statusLabel}</span>
+          <span className={`api-status ${apiOnline === false ? 'offline' : ''}`} role="status" aria-live="polite"><i /> {statusLabel}</span>
           <button className="icon-button" onClick={() => setDark((value) => !value)} aria-label="Toggle theme">
             {dark ? <Sun size={18} /> : <Moon size={18} />}
           </button>
