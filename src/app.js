@@ -6,6 +6,8 @@ const { LinkStore } = require('./store');
 const { generateCode } = require('./codegen');
 const { validateAndNormalizeUrl } = require('./validate');
 
+const CODE_PATTERN = /^[A-Za-z0-9]{7}$/;
+
 function createApp(store = new LinkStore()) {
   const app = express();
 
@@ -72,6 +74,7 @@ function createApp(store = new LinkStore()) {
 
   app.get('/api/links/:code', async (req, res, next) => {
     try {
+      if (!CODE_PATTERN.test(req.params.code)) return res.status(404).json({ error: 'unknown code' });
       const row = await store.findByCode(req.params.code);
       if (!row) return res.status(404).json({ error: 'unknown code' });
       return res.status(200).json(toPayload(row, req));
@@ -82,7 +85,7 @@ function createApp(store = new LinkStore()) {
 
   async function redirect(code, req, res, next) {
     try {
-      if (typeof code !== 'string' || !code) return res.status(404).json({ error: 'unknown code' });
+      if (typeof code !== 'string' || !CODE_PATTERN.test(code)) return res.status(404).json({ error: 'unknown code' });
       const row = await store.recordClick(code);
       if (!row) return res.status(404).json({ error: 'unknown code' });
       return res.redirect(302, row.url);
