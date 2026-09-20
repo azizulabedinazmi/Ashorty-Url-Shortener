@@ -20,6 +20,19 @@ async function post(base, body) {
   return { res, json: await res.json() };
 }
 
+test('health endpoints report a healthy API', async () => {
+  const server = await startServer();
+  const base = `http://localhost:${server.address().port}`;
+
+  for (const path of ['/health', '/api/health']) {
+    const response = await fetch(`${base}${path}`);
+    assert.equal(response.status, 200);
+    assert.deepEqual(await response.json(), { status: 'ok' });
+  }
+
+  server.close();
+});
+
 test('creating, following, and counting a link all work', async () => {
   const server = await startServer();
   const base = `http://localhost:${server.address().port}`;
