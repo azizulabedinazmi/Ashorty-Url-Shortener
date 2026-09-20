@@ -13,7 +13,7 @@ import {
   Trash2,
   X,
 } from 'lucide-react';
-import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
 
 type LinkRecord = {
   code: string;
@@ -38,6 +38,7 @@ function App() {
   const [copied, setCopied] = useState(false);
   const [apiOnline, setApiOnline] = useState<boolean | null>(null);
   const [dark, setDark] = useState(() => localStorage.getItem(THEME_KEY) === 'dark');
+  const statsDialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', dark);
@@ -47,6 +48,17 @@ function App() {
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
   }, [history]);
+
+  useEffect(() => {
+    if (!stats) return;
+
+    statsDialogRef.current?.focus();
+    function closeOnEscape(event: KeyboardEvent) {
+      if (event.key === 'Escape') setStats(null);
+    }
+    document.addEventListener('keydown', closeOnEscape);
+    return () => document.removeEventListener('keydown', closeOnEscape);
+  }, [stats]);
 
   useEffect(() => {
     let active = true;
@@ -219,8 +231,16 @@ function App() {
 
       {stats && (
         <div className="modal-backdrop" onMouseDown={() => setStats(null)}>
-          <div className="stats-modal" onMouseDown={(event) => event.stopPropagation()}>
-            <div className="modal-header"><div><p className="section-kicker">LINK ANALYTICS</p><h2>Link statistics</h2></div><button className="close-button" onClick={() => setStats(null)} aria-label="Close statistics"><X size={18} /></button></div>
+          <div
+            ref={statsDialogRef}
+            className="stats-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="stats-title"
+            tabIndex={-1}
+            onMouseDown={(event) => event.stopPropagation()}
+          >
+            <div className="modal-header"><div><p className="section-kicker">LINK ANALYTICS</p><h2 id="stats-title">Link statistics</h2></div><button className="close-button" onClick={() => setStats(null)} aria-label="Close statistics"><X size={18} /></button></div>
             <div className="stat-url">{stats.shortUrl}</div>
             <div className="big-stat"><span>Total clicks</span><strong>{stats.clicks}</strong></div>
             <div className="modal-meta"><span>Created</span><strong>{formatDate(stats.createdAt)}</strong></div>
