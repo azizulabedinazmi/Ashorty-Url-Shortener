@@ -185,11 +185,12 @@ The tests are intentionally self-contained and use the application's in-memory s
 
 The repository is configured as one Vercel project. Keep the **Root Directory** set to the repository root because both the frontend and API are part of the same repository.
 
-The committed `vercel.json` configures:
+The committed `vercel.json` configures separate Vercel builders:
 
 ```text
-Build Command: npm run build
-Output Directory: frontend/dist
+API Builder: @vercel/node using api/index.js
+Frontend Builder: @vercel/static-build using frontend/package.json
+Frontend Output: frontend/dist
 ```
 
 The Vercel serverless entry point is:

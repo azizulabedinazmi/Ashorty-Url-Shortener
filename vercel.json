@@ -26,12 +26,12 @@
       "handle": "filesystem"
     },
     {
-      "src": "/([^/]+)",
-      "dest": "/api/redirect?code=$1"
+      "src": "/",
+      "dest": "/index.html"
     },
     {
-      "src": "/(.*)",
-      "dest": "/$1"
+      "src": "/([^/]+)",
+      "dest": "/api/redirect?code=$1"
     }
   ]
 }
