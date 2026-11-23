@@ -1,3 +1,7 @@
+<p align="center">
+  <img src=".github/assets/banner.svg" alt="Ashorty URL Shortener banner" width="100%">
+</p>
+
 # URL Shortener
 
 [![DevConnect](https://devconnectplatform.com/api/badge/azizulabedin)](https://devconnectplatform.com/u/azizulabedin?ref=badge)
